@@ -6,6 +6,7 @@ public class Targets : MonoBehaviour
 {
     private Rigidbody targetRb;
     private GameManager gameManager;
+    public ParticleSystem explosionParticle;
 
     public float minSpeed = 13;
     public float maxSpeed = 20;
@@ -35,18 +36,27 @@ public class Targets : MonoBehaviour
 
     private void OnMouseDown()
     {
-        gameManager.UpdateScore(pointValue);
-        Destroy(gameObject);
+        if (!gameManager.gameOver)
+        {
+            gameManager.UpdateScore(pointValue);
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+        if (!gameObject.CompareTag("Bad"))
+        {
+            gameManager.GameOver();
+        }
     }
 
     Vector3 RandomForce()
     {
         return Vector3.up * Random.Range(minSpeed, maxSpeed);
+        
     }
 
     float RandomTorque()

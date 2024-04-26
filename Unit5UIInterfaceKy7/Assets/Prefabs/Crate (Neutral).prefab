@@ -146,6 +146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19e3f2ec6c840c4e91d8aef31aa3ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionParticle: {fileID: 7535607469619513247, guid: ac10190cf200c4f7e881ca8e41d3d760, type: 3}
   minSpeed: 10
   maxSpeed: 16
   maxTorque: 10
+  pointValue: 5
