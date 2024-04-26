@@ -149,3 +149,4 @@ MonoBehaviour:
   minSpeed: 10
   maxSpeed: 16
   maxTorque: 10
+  pointValue: -10

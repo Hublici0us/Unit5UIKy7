@@ -13,6 +13,8 @@ public class Targets : MonoBehaviour
     private float xRange = 4;
     private float ySpawnPos = -2;
 
+    public int pointValue = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +35,7 @@ public class Targets : MonoBehaviour
 
     private void OnMouseDown()
     {
-        gameManager.UpdateScore(5);
+        gameManager.UpdateScore(pointValue);
         Destroy(gameObject);
     }
 
