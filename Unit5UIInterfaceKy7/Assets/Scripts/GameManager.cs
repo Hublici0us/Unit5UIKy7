@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public List<GameObject> targets;
 
-    public float spawnRate = 1;
+    public float spawnRate = 1.5f;
     private int score;
     public bool gameOver;
     public bool titleOn;
@@ -24,19 +25,22 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        titleOn = true;
+        StartCoroutine(titleSpawner());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     IEnumerator SpawnTarget()
     {
+        yield return new WaitForSeconds(3);
         while (!gameOver)
         {
+            Time.timeScale = 1;
             yield return new WaitForSeconds(spawnRate);
             int index = Random.Range(0, targets.Count);
             Instantiate(targets[index]);
@@ -61,10 +65,12 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void StartGame()
+    public void StartGame(float difficulty)
     {
         gameOver = false;
         titleOn = false;
+
+        spawnRate /= difficulty;
         StartCoroutine(SpawnTarget());
         UpdateScore(0);
         scoreText.gameObject.SetActive(true);
@@ -75,12 +81,10 @@ public class GameManager : MonoBehaviour
     {
         while (titleOn)
         {
-            gameOver = false;
-            float minSpeed = 5;
-            float maxSpeed = 10;
+            Time.timeScale = 0.5f;
             yield return new WaitForSeconds(1);
             int startVariety = Random.Range(0, titleSpawnedPrefabs.Count);
-            Instantiate(titleSpawnedPrefabs[startVariety], new Vector3(Random.Range(-4, 4), 15, 0), Quaternion.identity);
+            Instantiate(titleSpawnedPrefabs[startVariety], new Vector3(Random.Range(-6, 6), 15, -2), Quaternion.Euler(Random.Range(0,360),Random.Range(0,360),Random.Range(0,360)));
             
         }
     }
