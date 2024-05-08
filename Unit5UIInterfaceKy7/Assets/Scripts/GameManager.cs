@@ -12,12 +12,14 @@ public class GameManager : MonoBehaviour
     public float spawnRate = 1;
     private int score;
     public bool gameOver;
+    public bool titleOn;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI restartText;
     public TextMeshProUGUI finalScoreText;
     public RawImage gameOverImage;
     public GameObject titleScreen;
+    public List<GameObject> titleSpawnedPrefabs;
 
     // Start is called before the first frame update
     void Start()
@@ -62,9 +64,24 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         gameOver = false;
+        titleOn = false;
         StartCoroutine(SpawnTarget());
         UpdateScore(0);
         scoreText.gameObject.SetActive(true);
         titleScreen.SetActive(false);
+    }
+
+    IEnumerator titleSpawner()
+    {
+        while (titleOn)
+        {
+            gameOver = false;
+            float minSpeed = 5;
+            float maxSpeed = 10;
+            yield return new WaitForSeconds(1);
+            int startVariety = Random.Range(0, titleSpawnedPrefabs.Count);
+            Instantiate(titleSpawnedPrefabs[startVariety], new Vector3(Random.Range(-4, 4), 15, 0), Quaternion.identity);
+            
+        }
     }
 }

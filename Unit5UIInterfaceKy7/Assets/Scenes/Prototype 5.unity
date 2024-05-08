@@ -580,11 +580,16 @@ MonoBehaviour:
   - {fileID: 1935757909534999837, guid: b3b5fcd4563adc14c97801cc9e394382, type: 3}
   spawnRate: 1
   gameOver: 0
+  titleOn: 0
   scoreText: {fileID: 1357125467}
   restartText: {fileID: 0}
   finalScoreText: {fileID: 2034053102}
   gameOverImage: {fileID: 1272392950}
   titleScreen: {fileID: 1666486082}
+  titleSpawnedPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &870520507
 Transform:
   m_ObjectHideFlags: 0
