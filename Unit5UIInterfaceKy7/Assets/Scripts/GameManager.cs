@@ -15,17 +15,23 @@ public class GameManager : MonoBehaviour
     public int lives = 5;
     public bool gameOver;
     public bool titleOn;
+    public bool pausedOn;
+    public bool freeplayOn = false;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI restartText;
     public TextMeshProUGUI finalScoreText;
     public RawImage gameOverImage;
+    public RawImage PauseMenu;
     public TextMeshProUGUI livesText;
     public GameObject titleScreen;
     public List<GameObject> titleSpawnedPrefabs;
 
     public Slider MusicVol;
     public Slider SFXVol;
+    public Toggle freeplayToggle;
+    public Button exitButton;
+    public Button PauseButton;
 
     private void Awake()
     {
@@ -35,6 +41,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        freeplayOn = true;
+        freeplayToggle.isOn = false;
         titleOn = true;
         StartCoroutine(titleSpawner());
 
@@ -45,7 +53,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     IEnumerator SpawnTarget()
@@ -57,11 +65,6 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(spawnRate);
             int index = Random.Range(0, targets.Count);
             Instantiate(targets[index]);
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                PauseGame();
-            }
         }
     }
 
@@ -92,9 +95,15 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnTarget());
         UpdateScore(0);
         scoreText.gameObject.SetActive(true);
-        livesText.gameObject.SetActive(true);
         titleScreen.SetActive(false);
-        UpdateLives();
+        exitButton.gameObject.SetActive(true);
+        PauseButton.gameObject.SetActive(true);
+        if (!freeplayOn)
+        {
+            livesText.gameObject.SetActive(true);
+            UpdateLives();
+        }
+        
     }
 
     IEnumerator titleSpawner()
@@ -115,6 +124,28 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        Time.timeScale = 0;
+        if (!pausedOn)
+        {
+            pausedOn = true;
+            PauseMenu.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            pausedOn = false;
+            PauseMenu.gameObject.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
+
+    public void ResumeGame()
+    {
+        PauseMenu.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void OnToggleChange()
+    {
+        freeplayOn = !freeplayOn;
     }
 }

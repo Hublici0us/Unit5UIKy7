@@ -54,6 +54,7 @@ public class Targets : MonoBehaviour
     {
         if (!gameObject.CompareTag("Bad"))
         {
+            if (!gameManager.freeplayOn)
             gameManager.lives -= 1;
             gameManager.UpdateLives();
             if (gameManager.lives < 1)
