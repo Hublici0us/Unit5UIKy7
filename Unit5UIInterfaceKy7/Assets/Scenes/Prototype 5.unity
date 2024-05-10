@@ -862,6 +862,8 @@ MonoBehaviour:
   - {fileID: 134104, guid: 1833d7268f2103a4796a7ac5ffcf0a56, type: 3}
   - {fileID: 1906384758145082, guid: 86bd51f90a0bf0644a0ba12975146892, type: 3}
   - {fileID: 1529207471264370, guid: 90e384868789aa149b214e2f5b85e5ba, type: 3}
+  MusicVol: {fileID: 1260263156}
+  SFXVol: {fileID: 859917211}
 --- !u!4 &870520507
 Transform:
   m_ObjectHideFlags: 0
@@ -3452,7 +3454,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 994139d3eb909b247b7d85a122a917ec, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -24,9 +24,12 @@ public class GameManager : MonoBehaviour
     public GameObject titleScreen;
     public List<GameObject> titleSpawnedPrefabs;
 
+    public Slider MusicVol;
+    public Slider SFXVol;
+
     private void Awake()
     {
-
+        
     }
 
     // Start is called before the first frame update
@@ -34,8 +37,9 @@ public class GameManager : MonoBehaviour
     {
         titleOn = true;
         StartCoroutine(titleSpawner());
-        
-        
+
+        MusicVol.value = 0.5f;
+        SFXVol.value = 1.0f;
     }
 
     // Update is called once per frame
