@@ -24,11 +24,18 @@ public class GameManager : MonoBehaviour
     public GameObject titleScreen;
     public List<GameObject> titleSpawnedPrefabs;
 
+    private void Awake()
+    {
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         titleOn = true;
         StartCoroutine(titleSpawner());
+        
+        
     }
 
     // Update is called once per frame

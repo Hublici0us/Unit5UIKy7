@@ -23,7 +23,7 @@ public class Targets : MonoBehaviour
     void Start()
     {
         targetRb = GetComponent<Rigidbody>();
-        sounds = GetComponent<AudioSource>();
+        sounds = GameObject.Find("SFXControl").GetComponent<AudioSource>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         targetRb.AddForce(RandomForce(), ForceMode.Impulse);
@@ -42,10 +42,11 @@ public class Targets : MonoBehaviour
     {
         if (!gameManager.gameOver)
         {
+
             gameManager.UpdateScore(pointValue);
-            sounds.PlayOneShot(slicedSFX);
             Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
             Destroy(gameObject);
+            sounds.PlayOneShot(slicedSFX);
         }
     }
 
