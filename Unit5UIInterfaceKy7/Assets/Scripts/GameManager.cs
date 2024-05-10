@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public float spawnRate = 1.5f;
     private int score;
+    public int lives = 5;
     public bool gameOver;
     public bool titleOn;
 
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI restartText;
     public TextMeshProUGUI finalScoreText;
     public RawImage gameOverImage;
+    public TextMeshProUGUI livesText;
     public GameObject titleScreen;
     public List<GameObject> titleSpawnedPrefabs;
 
@@ -44,6 +46,11 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(spawnRate);
             int index = Random.Range(0, targets.Count);
             Instantiate(targets[index]);
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                PauseGame();
+            }
         }
     }
 
@@ -74,7 +81,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnTarget());
         UpdateScore(0);
         scoreText.gameObject.SetActive(true);
+        livesText.gameObject.SetActive(true);
         titleScreen.SetActive(false);
+        UpdateLives();
     }
 
     IEnumerator titleSpawner()
@@ -85,7 +94,16 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             int startVariety = Random.Range(0, titleSpawnedPrefabs.Count);
             Instantiate(titleSpawnedPrefabs[startVariety], new Vector3(Random.Range(-6, 6), 15, -2), Quaternion.Euler(Random.Range(0,360),Random.Range(0,360),Random.Range(0,360)));
-            
         }
+    }
+
+    public void UpdateLives()
+    {
+        livesText.text = ("Lives: " + lives);
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
     }
 }
