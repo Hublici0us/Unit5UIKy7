@@ -38,15 +38,14 @@ public class Targets : MonoBehaviour
         
     }
 
-    private void OnMouseDown()
+    private void OnMouseEnter()
     {
-        if (!gameManager.gameOver)
+        if (!gameManager.gameOver && Input.GetMouseButton(0))
         {
-
-            gameManager.UpdateScore(pointValue);
-            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-            Destroy(gameObject);
-            sounds.PlayOneShot(slicedSFX);
+                gameManager.UpdateScore(pointValue);
+                Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+                Destroy(gameObject);
+                sounds.PlayOneShot(slicedSFX);
         }
     }
 

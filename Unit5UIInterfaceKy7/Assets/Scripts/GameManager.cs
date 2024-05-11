@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.UIElements;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,35 +14,48 @@ public class GameManager : MonoBehaviour
     public float spawnRate = 1.5f;
     private int score;
     public int lives = 5;
+    public float gameTimer;
     public bool gameOver;
     public bool titleOn;
     public bool pausedOn;
+    public bool gameStarted;
+    public bool boxing;
     public bool freeplayOn = false;
+    public bool timerOn;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI gameTimeText;
     public RawImage gameOverImage;
     public RawImage PauseMenu;
     public TextMeshProUGUI livesText;
     public GameObject titleScreen;
+
     public List<GameObject> titleSpawnedPrefabs;
 
     public Slider MusicVol;
     public Slider SFXVol;
     public Toggle freeplayToggle;
+    public Toggle timerToggle;
     public Button exitButton;
     public Button PauseButton;
 
     private void Awake()
     {
-        
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        boxing = false;
+        gameStarted = false;
+        gameTimer = 60;
         freeplayOn = true;
+        timerOn = true;
+        timerToggle.isOn = true;
         freeplayToggle.isOn = false;
         titleOn = true;
         StartCoroutine(titleSpawner());
@@ -51,9 +65,14 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
- 
+        UpdateGameTimer();
+    }
+
+    private void Update()
+    {
+        
     }
 
     IEnumerator SpawnTarget()
@@ -68,6 +87,7 @@ public class GameManager : MonoBehaviour
         countdownText.text = ("GO");
         yield return new WaitForSeconds(0.5f);
         countdownText.gameObject.SetActive(false);
+        gameStarted = true;
         while (!gameOver)
         {
             Time.timeScale = 1;
@@ -112,6 +132,11 @@ public class GameManager : MonoBehaviour
             livesText.gameObject.SetActive(true);
             UpdateLives();
         }
+        if (timerOn)
+        {
+            gameTimeText.gameObject.SetActive(true);
+            gameTimeText.text = ("Time: " + gameTimer);
+        }
         
     }
 
@@ -153,8 +178,61 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void OnToggleChange()
+    public void OnFreeplayToggleChange()
     {
         freeplayOn = !freeplayOn;
+    }
+
+    public void OnTimerToggleChange ()
+    {
+        timerOn = !timerOn;
+        if (!timerOn)
+        {
+            timerText.gameObject.SetActive(false);
+        }
+        if (timerOn)
+        {
+            timerText.gameObject.SetActive(true) ;
+        }
+    }
+
+    public void TimerChangeUp(float value)
+    {
+        if (gameTimer >= 180)
+        {
+            return;
+        }
+        else
+        {
+            gameTimer += value;
+            timerText.text = ($"{Mathf.FloorToInt(gameTimer)}");
+        }
+    }
+
+    public void TimerChangeDown(float value)
+    {
+        if (gameTimer <= 15)
+        {
+            return;
+        }
+        else
+        {
+            gameTimer += value;
+            timerText.text = ($"{Mathf.FloorToInt(gameTimer)}");
+        }
+    }
+
+    public void UpdateGameTimer()
+    {
+        if (!titleOn && !gameOver && gameStarted && timerOn)
+        {
+            if (gameTimer < 0.5f)
+            {
+                GameOver();
+                return;
+            }
+            gameTimer -= Time.deltaTime;
+            gameTimeText.text = ("Time: " + Mathf.FloorToInt(gameTimer));
+        }
     }
 }
