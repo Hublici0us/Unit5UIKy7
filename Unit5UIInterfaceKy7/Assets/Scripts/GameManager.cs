@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public bool freeplayOn = false;
 
     public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI restartText;
+    public TextMeshProUGUI countdownText;
     public TextMeshProUGUI finalScoreText;
     public RawImage gameOverImage;
     public RawImage PauseMenu;
@@ -53,12 +53,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+ 
     }
 
     IEnumerator SpawnTarget()
     {
-        yield return new WaitForSeconds(3);
+        countdownText.gameObject.SetActive(true);
+        countdownText.text = ("THREE");
+        yield return new WaitForSeconds(1);
+        countdownText.text = ("TWO");
+        yield return new WaitForSeconds(1);
+        countdownText.text = ("ONE");
+        yield return new WaitForSeconds(1);
+        countdownText.text = ("GO");
+        yield return new WaitForSeconds(0.5f);
+        countdownText.gameObject.SetActive(false);
         while (!gameOver)
         {
             Time.timeScale = 1;
